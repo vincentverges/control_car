@@ -10,9 +10,9 @@ motor_pwm = PWM("P3")  # Assurez-vous que le port "P3" est correct
 motor_pwm.freq(1000)  # Définit une fréquence de base pour le PWM, à ajuster selon besoin
 
 # Définition des largeurs d'impulsion pour avancer, arrêter et reculer
-PWM_FORWARD = 2000  # À ajuster
+PWM_FORWARD = 2500  # À ajuster
 PWM_STOP = 1500     # À ajuster
-PWM_BACKWARD = 1000 # À ajuster
+PWM_BACKWARD = 500 # À ajuster
 
 def adjust_motor_speed(pwm_value):
     motor_pwm.pulse_width(pwm_value)
