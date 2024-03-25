@@ -26,9 +26,9 @@ while running:
 			
 	keys = pygame.key.get_pressed()
 
-	if keys[pygame.K_RIGHT]:
+	if keys[pygame.K_LEFT]:
 		angle = adjust_servo_angle(min(90, angle + 1))
-	elif keys[pygame.K_LEFT]:
+	elif keys[pygame.K_RIGHT]:
 		angle = adjust_servo_angle(max(-90, angle - 1))
 	else:
 		if angle != 0:
