@@ -15,7 +15,7 @@ PWM_STOP = 1500     # À ajuster
 PWM_BACKWARD = 1000 # À ajuster
 
 def adjust_motor_speed(pwm_value):
-    motor_pwm.pulse_width_time(pwm_value)
+    motor_pwm.pulse_width(pwm_value)
     print(f"Motor PWM: {pwm_value}")
 
 running = True
