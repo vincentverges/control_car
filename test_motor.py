@@ -3,7 +3,7 @@ import time
 
 # Initialiser l'objet PWM sur le canal connecté à l'ESC
 # Remplacez "P0" par le bon canal en fonction de votre configuration
-esc_pwm = PWM("P0")
+esc_pwm = PWM("P3")
 
 # Définir la fréquence du signal PWM
 # La fréquence typique pour les ESC est de 50 Hz, mais cela peut varier
