@@ -42,9 +42,9 @@ while running:
 #			angle = adjust_servo_angle(0)
 	
 	if keys[pygame.K_UP]:
-		angle_motor = adjust_motor_speed(min(90, angle_motor + 1))
+		angle_motor = adjust_motor_speed(min(90, angle_motor + 5))
 	elif keys[pygame.K_DOWN]:
-		angle_motor = adjust_motor_speed(max(-90, angle_motor - 1))
+		angle_motor = adjust_motor_speed(max(-90, angle_motor - 5))
 	else:
 		if angle_motor != 0:
 			angle_motor = adjust_motor_speed(0)
