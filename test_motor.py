@@ -13,6 +13,6 @@ def set_motor_speed(pulse_width):
     motor_pwm.pulse_width(pulse_width)
 
 # Exemple d'utilisation pour faire tourner le moteur à une vitesse définie par la largeur d'impulsion
-set_motor_speed(1500)  # Exemple de valeur, à ajuster
+print(set_motor_speed(2500))  # Exemple de valeur, à ajuster
 time.sleep(4)  # Faire tourner le moteur pendant 4 secondes
-set_motor_speed(0)  # Arrêter le moteur
+print(set_motor_speed(1500))  # Arrêter le moteur
