@@ -3,7 +3,7 @@ from robot_hat import PWM
 import time
 
 # Initialisation
-pwm_motor = PWM("P1")  # Assumer que "P0" est le canal pour le moteur
+pwm_motor = PWM("P3")  # Assumer que "P0" est le canal pour le moteur
 
 # Configurer la fréquence PWM pour le servo et le moteur
 pwm_motor.freq(60)  # La fréquence peut devoir être ajustée selon vos composants
