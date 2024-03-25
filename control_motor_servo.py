@@ -57,7 +57,7 @@ while running:
 		if motor_state != 'stop':
 			adjust_motor_speed(0, 'stop')
 		
-	time.sleep(0.001)
+	time.sleep(0.1)
 		
 pygame.quit()
 
