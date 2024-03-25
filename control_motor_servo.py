@@ -5,15 +5,15 @@ import time
 pygame.init()
 screen = pygame.display.set_mode((100,100))
 
-# servo0 = Servo("P0")
+servo0 = Servo("P0")
 motor3_pwm = Servo("P3")
 
 angle_motor = 0
 motor3_pwm.angle(angle_motor)
 motor_state = 'stop'
 
-# angle = 0
-# servo0.angle(angle)
+angle = 0
+servo0.angle(angle)
 
 def adjust_servo_angle(new_angle):
 	servo0.angle(new_angle)
@@ -38,13 +38,13 @@ while running:
 			
 	keys = pygame.key.get_pressed()
 
-#	if keys[pygame.K_RIGHT]:
-#		angle = adjust_servo_angle(min(90, angle + 1))
-#	elif keys[pygame.K_LEFT]:
-#		angle = adjust_servo_angle(max(-90, angle - 1))
-#	else:
-#		if angle != 0:
-#			angle = adjust_servo_angle(0)
+	if keys[pygame.K_RIGHT]:
+		angle = adjust_servo_angle(min(90, angle + 1))
+	elif keys[pygame.K_LEFT]:
+		angle = adjust_servo_angle(max(-90, angle - 1))
+	else:
+		if angle != 0:
+			angle = adjust_servo_angle(0)
 	
 	if keys[pygame.K_UP]:
 		adjust_motor_speed(90, 'forward')
