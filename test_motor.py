@@ -1,40 +1,25 @@
-import pygame
 from robot_hat import PWM
 import time
 
-pygame.init()
-screen = pygame.display.set_mode((100, 100))
+# Initialisation de l'objet PWM pour le moteur
+motor_pwm = PWM("P3")  # Remplacez "P3" par le bon port pour votre moteur
+motor_pwm.freq(1000)  # Réglage de la fréquence du PWM, peut nécessiter des ajustements
 
-# Initialisation du moteur à charbon
-motor_pwm = PWM("P3")  # Assurez-vous que le port "P3" est correct
-motor_pwm.freq(1000)  # Définit une fréquence de base pour le PWM, à ajuster selon besoin
+# Définition des largeurs d'impulsion pour faire tourner le moteur et pour l'arrêter
+PWM_RUN = 2000  # Largeur d'impulsion pour faire tourner le moteur, à ajuster selon les besoins
+PWM_STOP = 1500  # Largeur d'impulsion pour arrêter le moteur, souvent autour de 1500 pour un arrêt neutre
 
-# Définition des largeurs d'impulsion pour avancer, arrêter et reculer
-PWM_FORWARD = 2500  # À ajuster
-PWM_STOP = 1500     # À ajuster
-PWM_BACKWARD = 500 # À ajuster
+# Fonction pour faire tourner le moteur
+def run_motor(duration, pwm_value):
+    motor_pwm.pulse_width_time(pwm_value)  # Définit la largeur d'impulsion pour faire tourner le moteur
+    time.sleep(duration)  # Laisse le moteur tourner pendant la durée spécifiée
 
-def adjust_motor_speed(pwm_value):
-    motor_pwm.pulse_width(pwm_value)
-    print(f"Motor PWM: {pwm_value}")
+# Fonction pour arrêter le moteur
+def stop_motor():
+    motor_pwm.pulse_width_time(PWM_STOP)  # Réinitialise la largeur d'impulsion pour arrêter le moteur
 
-running = True
-print("Utiliser les flèches 'Haut' et 'Bas' pour contrôler le moteur à charbon")
+# Test: Fait tourner le moteur pendant 5 secondes puis l'arrête
+run_motor(5, PWM_RUN)
+stop_motor()
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_UP]:
-        adjust_motor_speed(PWM_FORWARD)
-    elif keys[pygame.K_DOWN]:
-        adjust_motor_speed(PWM_BACKWARD)
-    else:
-        adjust_motor_speed(PWM_STOP)
-
-    time.sleep(0.01)  # Ajustez ce délai selon les besoins de votre application
-
-pygame.quit()
+print("Test terminé.")
