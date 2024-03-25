@@ -22,7 +22,7 @@ try:
     time.sleep(1)
 
     # Exemple : accélérer
-    set_esc_speed(1600)  # Valeur d'exemple pour accélérer, à ajuster
+    set_esc_speed(2500)  # Valeur d'exemple pour accélérer, à ajuster
     time.sleep(4)
 
     # Retour à la vitesse neutre
@@ -30,7 +30,7 @@ try:
     time.sleep(1)
 
     # Exemple : inverser
-    set_esc_speed(1400)  # Valeur d'exemple pour inverser, à ajuster
+    set_esc_speed(500)  # Valeur d'exemple pour inverser, à ajuster
     time.sleep(4)
 
     # Arrêt du moteur
