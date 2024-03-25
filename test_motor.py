@@ -33,6 +33,6 @@ while running:
     
     adjust_motor_speed(angle_motor)  # Cette ligne doit être alignée avec les blocs if/elif/else
     
-    time.sleep(1)
+    time.sleep(0.0001)
         
 pygame.quit()
