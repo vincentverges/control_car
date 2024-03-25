@@ -3,23 +3,32 @@ import time
 
 # Initialisation de l'objet PWM pour le moteur
 motor_pwm = PWM("P3")  # Remplacez "P3" par le bon port pour votre moteur
-motor_pwm.freq(1000)  # Réglage de la fréquence du PWM, peut nécessiter des ajustements
 
-# Définition des largeurs d'impulsion pour faire tourner le moteur et pour l'arrêter
-PWM_RUN = 2000  # Largeur d'impulsion pour faire tourner le moteur, à ajuster selon les besoins
-PWM_STOP = 1500  # Largeur d'impulsion pour arrêter le moteur, souvent autour de 1500 pour un arrêt neutre
+# Réglage de la fréquence du PWM (ajustez cette valeur en fonction de votre matériel)
+motor_pwm.freq(1000)
 
-# Fonction pour faire tourner le moteur
-def run_motor(duration, pwm_value):
-    motor_pwm.pulse_width_time(pwm_value)  # Définit la largeur d'impulsion pour faire tourner le moteur
+def run_motor(direction, duration):
+    if direction == "forward":
+        pulse_width = 2500  # Marche avant
+    elif direction == "backward":
+        pulse_width = 500   # Marche arrière
+    else:
+        pulse_width = 1500  # Arrêt
+
+    # Calcul du pourcentage de la largeur d'impulsion par rapport à la valeur maximale que nous utilisons (2500 dans cet exemple)
+    pulse_width_percent = (pulse_width / 2500) * 100
+    motor_pwm.pulse_width_percent(pulse_width_percent)
+
+    print(f"Direction: {direction}, Pulse Width: {pulse_width}, Pulse Width Percent: {pulse_width_percent}%")
     time.sleep(duration)  # Laisse le moteur tourner pendant la durée spécifiée
 
-# Fonction pour arrêter le moteur
 def stop_motor():
-    motor_pwm.pulse_width_time(PWM_STOP)  # Réinitialise la largeur d'impulsion pour arrêter le moteur
+    motor_pwm.pulse_width_percent(0)  # Arrêt du moteur
+    print("Motor stopped.")
 
-# Test: Fait tourner le moteur pendant 5 secondes puis l'arrête
-run_motor(5, PWM_RUN)
+# Test: Fait tourner le moteur en marche avant pendant 2 secondes, puis en marche arrière pendant 2 secondes, et enfin l'arrête.
+run_motor("forward", 2)
+run_motor("backward", 2)
 stop_motor()
 
-print("Test terminé.")
+print("Test du moteur terminé.")
