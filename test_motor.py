@@ -24,19 +24,19 @@ while running:
     keys = pygame.key.get_pressed()
     motor_changed = False
     
-    if keys[pygame.K_UP]:
+    while keys[pygame.K_UP]:
         angle_motor = min(90, angle_motor + 1) 
         motor_changed = True
-    elif keys[pygame.K_DOWN]:
+        adjust_motor_speed(angle_motor)
+
+    while keys[pygame.K_DOWN]:
         angle_motor = max(-90, angle_motor - 1)
         motor_changed = True
+        adjust_motor_speed(angle_motor)
+    else:
+        angle_motor = 0
+        adjust_motor_speed(angle_motor)
     
-    if not motor_changed and angle_motor != 0:
-        angle_motor -=5 if angle_motor>0 else -5
-        angle_motor = max(min(angle_motor, 90), -90)
-    
-    adjust_motor_speed(angle_motor) 
-    
-    time.sleep(0.001)
+    time.sleep(0.0001)
         
 pygame.quit()
