@@ -13,7 +13,6 @@ motor3_pwm.angle(angle_motor)
 def adjust_motor_speed(new_angle_motor):
     motor3_pwm.angle(new_angle_motor)
     print(f"Motor Pulse Width: {new_angle_motor}")
-    return new_angle_motor
 
 running = True
 print("Utiliser les flèches 'Haut' et 'Bas' pour contrôler le moteur")
@@ -23,16 +22,21 @@ while running:
             running = False
             
     keys = pygame.key.get_pressed()
+    motor_changed = False
     
     if keys[pygame.K_UP]:
-        angle_motor = min(90, angle_motor + 1)  # Limite supérieure à 90
+        angle_motor = min(90, angle_motor + 1) 
+        motor_changed = True
     elif keys[pygame.K_DOWN]:
-        angle_motor = max(-180, angle_motor - 1)  # Limite inférieure à -180
-    else:
-        angle_motor = 0
+        angle_motor = max(-90, angle_motor - 1)
+        motor_changed = True
     
-    adjust_motor_speed(angle_motor)  # Cette ligne doit être alignée avec les blocs if/elif/else
+    if not motor_changed and angle_motor != 0:
+        angle_motor -=5 if angle_motor>0 else -5
+        angle_motor = max(min(angle_motor, 90), -90)
     
-    time.sleep(0.0001)
+    adjust_motor_speed(angle_motor) 
+    
+    time.sleep(0.001)
         
 pygame.quit()
