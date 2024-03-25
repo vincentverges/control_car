@@ -21,17 +21,21 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
+    key_pressed = False  # Flag pour indiquer si une touche est pressée
 
     if keys[pygame.K_UP]:
-        angle_motor += 1  # Augmenter l'angle pour accélérer
-        angle_motor = min(angle_motor, 89)  # Limiter l'angle maximal à 90
-        adjust_motor_speed(angle_motor)
+        key_pressed = True
+        if angle_motor < 90:  # Augmenter l'angle seulement s'il est inférieur à 90
+            angle_motor += 1
+        adjust_motor_speed(angle_motor)  # Maintenir la vitesse maximale si angle_motor est à 90
     elif keys[pygame.K_DOWN]:
-        angle_motor -= 1  # Diminuer l'angle pour ralentir
-        angle_motor = max(angle_motor, -89)  # Limiter l'angle minimal à -180
+        key_pressed = True
+        if angle_motor > -90:  # Diminuer l'angle seulement s'il est supérieur à -90
+            angle_motor -= 1
         adjust_motor_speed(angle_motor)
-    else:
-        # Optionnel : arrêter progressivement le moteur si aucune touche n'est pressée
+
+    if not key_pressed:
+        # Arrêter progressivement le moteur si aucune touche n'est pressée
         if angle_motor > 0:
             angle_motor -= 1
         elif angle_motor < 0:
