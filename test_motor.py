@@ -5,7 +5,7 @@ import time
 motor_pwm = PWM("P3")  # Assurez-vous que "P3" est le port correct
 
 # Réglage de la fréquence du signal PWM, qui est commune pour les contrôles de moteurs à courant continu
-motor_pwm.freq(1000)  # Exemple: 1000 Hz
+motor_pwm.freq(50)  # Exemple: 1000 Hz
 
 def set_motor_speed(pulse_width):
     # Réglage de la largeur d'impulsion pour contrôler la vitesse du moteur
