@@ -10,6 +10,7 @@ motor3_pwm = Servo("P3")
 
 angle_motor = 0
 motor3_pwm.angle(angle_motor)
+motor_state = 'stop'
 
 # angle = 0
 # servo0.angle(angle)
@@ -19,13 +20,17 @@ def adjust_servo_angle(new_angle):
 	print(f"Angle: {new_angle}°")	
 	return new_angle
 	
-def adjust_motor_speed(new_angle_motor):
-	motor3_pwm.angle(new_angle_motor)
-	print(f"Motor Pulse Width: {new_angle_motor}")	
-	return new_angle_motor
+def adjust_motor_speed(new_angle_motor, new_state):
+	global angle_motor, motor_state
+	if motor_state != new_state:
+		angle_motor = new_angle_motor
+		motor3_pwm.angle(new_angle_motor)
+		motor_state = new_state
+		print(f"Motor State: {new_state}, Motor Pulse Width: {new_angle_motor}")	
+
 
 running = True
-print("Utiliser les fleches gauche et droite pour controler le Servo")
+print("Utiliser les fleches du clavier pour controler le Servo et le Moteur")
 while running:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -42,12 +47,15 @@ while running:
 #			angle = adjust_servo_angle(0)
 	
 	if keys[pygame.K_UP]:
-		angle_motor = adjust_motor_speed(min(90, angle_motor + 1))
+		adjust_motor_speed(90, 'forward')
 	elif keys[pygame.K_DOWN]:
-		angle_motor = adjust_motor_speed(max(-90, angle_motor - 1))
+		if motor_state == 'forward' or motor_state == "stop":
+			adjust_motor_speed(-90, 'backward')
+		else:
+			adjust_motor_speed(0, 'stop')
 	else:
-		if angle_motor != 0:
-			angle_motor = adjust_motor_speed(0)
+		if motor_state != 'stop':
+			adjust_motor_speed(0, 'stop')
 		
 	time.sleep(0.001)
 		
