@@ -1,18 +1,32 @@
+import robot_hat
 from robot_hat import PWM
 import time
 
-# Initialisation de l'objet PWM pour le moteur
-motor_pwm = PWM("P3")  # Assurez-vous que "P3" est le port correct
+# Initialisation
+pwm_motor = PWM("P1")  # Assumer que "P0" est le canal pour le moteur
 
-# Réglage de la fréquence du signal PWM, qui est commune pour les contrôles de moteurs à courant continu
-motor_pwm.freq(50)  # Exemple: 1000 Hz
+# Configurer la fréquence PWM pour le servo et le moteur
+pwm_motor.freq(60)  # La fréquence peut devoir être ajustée selon vos composants
 
-def set_motor_speed(pulse_width):
-    # Réglage de la largeur d'impulsion pour contrôler la vitesse du moteur
-    # La valeur doit être ajustée en fonction des spécifications de votre moteur et du contrôleur
-    motor_pwm.pulse_width(pulse_width)
+# Valeurs initiales
+motor_speed = 400  # Valeur neutre pour l'ESC
 
-# Exemple d'utilisation pour faire tourner le moteur à une vitesse définie par la largeur d'impulsion
-print(set_motor_speed(2500))  # Exemple de valeur, à ajuster
-time.sleep(4)  # Faire tourner le moteur pendant 4 secondes
-print(set_motor_speed(1500))  # Arrêter le moteur
+def update_motor(speed):
+    pwm_motor.pulse_width(speed)
+    print(f"Vitesse du moteur: {speed}")
+
+try:
+    while True:
+        # Ici, vous pouvez lire les entrées de l'utilisateur, par exemple, en utilisant `input()`
+        # ou une autre méthode pour obtenir des commandes en temps réel
+        
+        # Exemple pour augmenter la vitesse du moteur
+        motor_speed += 10  # Augmenter la valeur pour accélérer
+        update_motor(motor_speed)
+        
+        time.sleep(1)  # Attente d'une seconde entre les mises à jour
+        
+except KeyboardInterrupt:
+    # Arrêt propre du programme
+    pwm_motor.pulse_width(400)  # Envoyer un signal neutre à l'ESC pour arrêter le moteur
+    print("Arrêt du programme.")
