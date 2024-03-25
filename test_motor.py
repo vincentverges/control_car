@@ -24,11 +24,11 @@ while running:
 
     if keys[pygame.K_UP]:
         angle_motor += 1  # Augmenter l'angle pour accélérer
-        angle_motor = angle_motor  # Limiter l'angle maximal à 90
+        angle_motor = min(angle_motor, 90)  # Limiter l'angle maximal à 90
         adjust_motor_speed(angle_motor)
     elif keys[pygame.K_DOWN]:
         angle_motor -= 1  # Diminuer l'angle pour ralentir
-        angle_motor = angle_motor  # Limiter l'angle minimal à -180
+        angle_motor = max(angle_motor, -90)  # Limiter l'angle minimal à -180
         adjust_motor_speed(angle_motor)
     else:
         # Optionnel : arrêter progressivement le moteur si aucune touche n'est pressée
