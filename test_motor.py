@@ -1,54 +1,43 @@
-import pygame
-from robot_hat import Servo, PWM
+from robot_hat import PWM
 import time
 
-pygame.init()
-screen = pygame.display.set_mode((100,100))
+# Initialiser l'objet PWM sur le canal connecté à l'ESC
+# Remplacez "P0" par le bon canal en fonction de votre configuration
+esc_pwm = PWM("P0")
 
-# servo0 = Servo("P0")
-motor3_pwm = Servo("P3")
+# Définir la fréquence du signal PWM
+# La fréquence typique pour les ESC est de 50 Hz, mais cela peut varier
+# Vérifiez la documentation de votre ESC spécifique
+esc_pwm.freq(50)
 
-angle_motor = 0
-motor3_pwm.angle(angle_motor)
+def set_esc_speed(pulse_width):
+    # Configurer la largeur d'impulsion pour l'ESC
+    # La valeur typique pour l'arrêt est de 1500 (neutre pour beaucoup d'ESC)
+    # Les valeurs doivent être ajustées au-dessus ou en dessous pour accélérer ou inverser
+    esc_pwm.pulse_width(pulse_width)
 
-# angle = 0
-# servo0.angle(angle)
+try:
+    # Démarrage de l'ESC (peut nécessiter une procédure de démarrage spécifique, vérifiez la documentation de votre ESC)
+    set_esc_speed(1500)  # Valeur neutre pour initialiser
+    time.sleep(1)
 
-def adjust_servo_angle(new_angle):
-	servo0.angle(new_angle)
-	print(f"Angle: {new_angle}°")	
-	return new_angle
-	
-def adjust_motor_speed(new_angle_motor):
-	motor3_pwm.angle(new_angle_motor)
-	print(f"Motor Pulse Width: {new_angle_motor}")	
-	return new_angle_motor
+    # Exemple : accélérer
+    set_esc_speed(2500)  # Valeur d'exemple pour accélérer, à ajuster
+    time.sleep(4)
 
-running = True
-print("Utiliser les fleches gauche et droite pour controler le Servo")
-while running:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			running = False
-			
-	keys = pygame.key.get_pressed()
+    # Retour à la vitesse neutre
+    set_esc_speed(1500)
+    time.sleep(1)
 
-#	if keys[pygame.K_RIGHT]:
-#		angle = adjust_servo_angle(min(90, angle + 1))
-#	elif keys[pygame.K_LEFT]:
-#		angle = adjust_servo_angle(max(-90, angle - 1))
-#	else:
-#		if angle != 0:
-#			angle = adjust_servo_angle(0)
-	
-	if keys[pygame.K_UP]:
-		angle_motor = adjust_motor_speed(min(180, angle_motor + 5))
-	elif keys[pygame.K_DOWN]:
-		angle_motor = adjust_motor_speed(max(-180, angle_motor - 5))
-	else:
-		if angle_motor != 0:
-			angle_motor = adjust_motor_speed(0)
-		
-	time.sleep(0.001)
-		
-pygame.quit()
+    # Exemple : inverser
+    set_esc_speed(500)  # Valeur d'exemple pour inverser, à ajuster
+    time.sleep(4)
+
+    # Arrêt du moteur
+    set_esc_speed(1500)
+
+except KeyboardInterrupt:
+    # Assurez-vous d'arrêter le moteur en cas d'interruption
+    set_esc_speed(1500)
+    print("Arrêt du programme.")
+
