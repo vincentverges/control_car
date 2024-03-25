@@ -1,31 +1,43 @@
 from robot_hat import PWM
 import time
 
-# Initialisation
-pwm_motor = PWM("P1")  # Assumer que "P0" est le canal pour le moteur
+# Initialiser l'objet PWM sur le canal connecté à l'ESC
+# Remplacez "P0" par le bon canal en fonction de votre configuration
+esc_pwm = PWM("P0")
 
-# Configurer la fréquence PWM pour le servo et le moteur
-pwm_motor.freq(60)  # La fréquence peut devoir être ajustée selon vos composants
+# Définir la fréquence du signal PWM
+# La fréquence typique pour les ESC est de 50 Hz, mais cela peut varier
+# Vérifiez la documentation de votre ESC spécifique
+esc_pwm.freq(50)
 
-# Valeurs initiales
-motor_speed = 400  # Valeur neutre pour l'ESC
-
-def update_motor(speed):
-    pwm_motor.pulse_width(speed)
-    print(f"Vitesse du moteur: {speed}")
+def set_esc_speed(pulse_width):
+    # Configurer la largeur d'impulsion pour l'ESC
+    # La valeur typique pour l'arrêt est de 1500 (neutre pour beaucoup d'ESC)
+    # Les valeurs doivent être ajustées au-dessus ou en dessous pour accélérer ou inverser
+    esc_pwm.pulse_width(pulse_width)
 
 try:
-    while True:
-        # Ici, vous pouvez lire les entrées de l'utilisateur, par exemple, en utilisant `input()`
-        # ou une autre méthode pour obtenir des commandes en temps réel
-        
-        # Exemple pour augmenter la vitesse du moteur
-        motor_speed += 10  # Augmenter la valeur pour accélérer
-        update_motor(motor_speed)
-        
-        time.sleep(1)  # Attente d'une seconde entre les mises à jour
-        
+    # Démarrage de l'ESC (peut nécessiter une procédure de démarrage spécifique, vérifiez la documentation de votre ESC)
+    set_esc_speed(1500)  # Valeur neutre pour initialiser
+    time.sleep(1)
+
+    # Exemple : accélérer
+    set_esc_speed(1600)  # Valeur d'exemple pour accélérer, à ajuster
+    time.sleep(4)
+
+    # Retour à la vitesse neutre
+    set_esc_speed(1500)
+    time.sleep(1)
+
+    # Exemple : inverser
+    set_esc_speed(1400)  # Valeur d'exemple pour inverser, à ajuster
+    time.sleep(4)
+
+    # Arrêt du moteur
+    set_esc_speed(1500)
+
 except KeyboardInterrupt:
-    # Arrêt propre du programme
-    pwm_motor.pulse_width(400)  # Envoyer un signal neutre à l'ESC pour arrêter le moteur
+    # Assurez-vous d'arrêter le moteur en cas d'interruption
+    set_esc_speed(1500)
     print("Arrêt du programme.")
+
