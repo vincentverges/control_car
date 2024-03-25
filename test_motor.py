@@ -1,19 +1,39 @@
 import pygame
-from robot_hat import Servo, PWM, TTS
+from robot_hat import Servo, PWM
 import time
 
-motor = Servo('P1')
-#motor.pulse_width(2500)
-#time.sleep(4)
-#motor.pulse_width(1500)
-motor.angle(90)
-time.sleep(3)
-motor.angle(0)
-time.sleep(1)
-motor.angle(0)
-time.sleep(1)
-motor.angle(-90)
-time.sleep(3)
-motor.angle(0)
+pygame.init()
+screen = pygame.display.set_mode((100,100))
 
-print("Test fini")
+servo0 = Servo("P1")
+
+angle = 0
+servo0.angle(angle)
+
+def adjust_servo_angle(new_angle):
+	servo0.angle(new_angle)
+	print(f"Angle: {new_angle}°")	
+	return new_angle
+	
+
+running = True
+print("Utiliser les fleches du clavier pour controler le Servo et le Moteur")
+while running:
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			running = False
+			
+	keys = pygame.key.get_pressed()
+
+	if keys[pygame.K_RIGHT]:
+		angle = adjust_servo_angle(min(90, angle + 1))
+	elif keys[pygame.K_LEFT]:
+		angle = adjust_servo_angle(max(-90, angle - 1))
+	else:
+		if angle != 0:
+			angle = adjust_servo_angle(0)
+		
+	time.sleep(0.1)
+		
+pygame.quit()
+
