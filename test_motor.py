@@ -2,7 +2,7 @@ from robot_hat import PWM
 import time
 
 # Initialisation de l'objet PWM pour le moteur
-motor_pwm = PWM("P3")  # Remplacez "P3" par le bon port pour votre moteur
+motor_pwm = PWM("P1")  # Remplacez "P3" par le bon port pour votre moteur
 
 # Réglage de la fréquence du PWM (ajustez cette valeur en fonction de votre matériel)
 motor_pwm.freq(1000)
